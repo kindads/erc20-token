@@ -1,0 +1,19 @@
+{
+  "name": "cpx-token-erc20",
+  "version": "1.0.0",
+  "description": "Inital CPX Token Creation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://blockbliss.visualstudio.com/Captivate/_git/CPX-Token-ERC20"
+  },
+  "author": "Enrique Chavez",
+  "license": "ISC",
+  "devDependencies": {
+    "truffle": "4.0.5",
+    "zeppelin-solidity": "1.6.0"
+  }
+}
