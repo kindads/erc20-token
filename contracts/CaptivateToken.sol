@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-import "zeppelin-solidity/contracts/token/StandardToken.sol";
+import "./zeppelin-solidity/contracts/token/StandardToken.sol";
 
 /**
 * @title Captivate Token
@@ -22,11 +22,17 @@ import "zeppelin-solidity/contracts/token/StandardToken.sol";
 *
 */
 
+
 contract CaptivateToken is StandardToken {
 
-  string public constant name = "Captivate Token";
-  string public constant symbol = "CPX";
-  uint8 public constant decimals = 18;
-  uint256 public constant INITIAL_SUPPLY = 61000000 * 10**uint256(decimals);
+  string public name = "Captivate Token";
+  string public symbol = "CPX";
+  uint8 public decimals = 18;
+  uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**18; 
+
+  function CaptivateToken() public {
+    totalSupply_ = INITIAL_SUPPLY;
+    balances[msg.sender] = INITIAL_SUPPLY;
+  }
 
 }

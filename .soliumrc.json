@@ -1,8 +1,12 @@
 {
-  "extends": "solium:recommended",
+  "extends": "solium:all",
+  "plugins": ["security"],
   "rules": {
+    "quotes": ["error", "double"],
     "indentation": ["error", 2],
-    "quotes": ["error", "double"]
+    "no-empty-blocks": "off",
+    "operator-whitespace": "warning",
+    "security/enforce-explicit-visibility": ["error"],
+    "security/no-block-members": "off"
   }
 }
-
