@@ -13,6 +13,7 @@
   "author": "Enrique Chavez",
   "license": "ISC",
   "devDependencies": {
+    "solium": "1.1.3",
     "truffle": "4.0.5",
     "zeppelin-solidity": "1.6.0"
   }
