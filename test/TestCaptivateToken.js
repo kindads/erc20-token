@@ -14,7 +14,7 @@ contract("CaptivateToken", (accounts) => {
     });
   });
 
-  it('should have the symbol TNT', () => {
+  it('should have the symbol CPX', () => {
     return CaptivateToken.deployed().then((instance) => {
       return instance.symbol.call()
     }).then((symbol) => {
