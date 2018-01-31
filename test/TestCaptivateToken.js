@@ -1,7 +1,8 @@
-var CaptivateToken = artifacts.require("./CaptivateToken.sol");
+var utils = require('./utils.js');
+var CaptivateToken = artifacts.require('./CaptivateToken.sol');
 
 contract("CaptivateToken", (accounts) => {
-  
+
   var creatorAddress = accounts[0];
   var recipientAddress = accounts[1];
   var delegateAddress = accounts[2];
@@ -10,7 +11,7 @@ contract("CaptivateToken", (accounts) => {
     return CaptivateToken.deployed().then((instance) => {
       return instance.name.call()
     }).then((name) => {
-        assert.equal(name, 'Captivate Token', 'Captivate Token wasn\'t the name');
+      assert.equal(name, 'Captivate Token', 'Captivate Token wasn\'t the name');
     });
   });
 
@@ -48,6 +49,7 @@ contract("CaptivateToken", (accounts) => {
 
   it('Should tranfer 1e+24 Captivate Tokens to the recipient balance', () => {
     var CaptivateTokenInstance;
+
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
       return CaptivateTokenInstance.transfer(recipientAddress, 1e+24, {
@@ -65,6 +67,7 @@ contract("CaptivateToken", (accounts) => {
 
   it('Should approve 1e+24 Captivate Tokens to the delegated balance', () => {
     var CaptivateTokenInstance;
+
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
       return CaptivateTokenInstance.approve(delegateAddress, 1e+24, {
@@ -79,6 +82,7 @@ contract("CaptivateToken", (accounts) => {
 
   it('Should transfer 1e+24 Captivate Tokens form the creator to the alt recipient via the delegated address', () => {
     var CaptivateTokenInstance;
+
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
       return CaptivateTokenInstance.transferFrom(creatorAddress, recipientAddress, .5e+24, {
@@ -94,21 +98,95 @@ contract("CaptivateToken", (accounts) => {
     });
   });
 
-  //TODO test await / Async functions
-  /*it('should not allow transfer() when _to is null', () => {
+  it('should not allow transfer() when _to is null', () => {
     var CaptivateTokenInstance;
+
     return CaptivateToken.deployed().then((instance) => {
-      CaptivateTokenInstance = instance
-      return CaptivateTokenInstance.transfer(null, 1000000, { from: accounts[0] })
-    }).then(assert.fail)
+        CaptivateTokenInstance = instance
+        return CaptivateTokenInstance.transfer(null, 1000000, {
+          from: creatorAddress
+        })
+      }).then(assert.fail)
       .catch((error) => {
-        console.log('===== CATCH ======');
-        console.log(error.message);
-        assert(
-          error.message.indexOf('invalid opcode') >= 0,
-          'accounts trying to transfer() when _to is null should throw an invalid opcode exception.'
+        assert(error.message.indexOf('revert') >= 0,
+          'accounts trying to transfer() when _to is null should throw an revert exception.'
         );
       });
-  });*/
+  });
+
+  it('should not allow transfer() when _to is 0x0000000000000000000000000000000000000000', () => {
+    var CaptivateTokenInstance;
+
+    return CaptivateToken.deployed().then((instance) => {
+        CaptivateTokenInstance = instance;
+        return CaptivateTokenInstance.transfer('0x0000000000000000000000000000000000000000', 1000000, {
+          from: creatorAddress
+        });
+      }).then(assert.fail)
+      .catch((error) => {
+        assert(
+          error.message.indexOf('revert') >= 0,
+          'accounts trying to transfer() when _to is 0x0000000000000000000000000000000000000000 should throw an revert exception.'
+        );
+      });
+  });
+
+  it('should not allow transferFrom() when _to is null', () => {
+    var CaptivateTokenInstance;
+
+    return CaptivateToken.deployed().then((instance) => {
+        CaptivateTokenInstance = instance
+        return CaptivateTokenInstance.approve(recipientAddress, 1000000, {
+          from: creatorAddress
+        })
+      }).then(() => {
+        utils.assertEvent(CaptivateTokenInstance, {
+          event: 'Approval'
+        })
+      }).then(() => {
+        return CaptivateTokenInstance.transferFrom(creatorAddress, null, 1000000, {
+          from: recipientAddress
+        })
+      }).then(assert.fail)
+      .catch((error) => {
+        assert(
+          error.message.indexOf('revert') >= 0,
+          'accounts trying to transferFrom() when _to is null should throw an revert exception.'
+        );
+      }).then(() => {
+        CaptivateTokenInstance.approve(recipientAddress, 0, {
+          from: creatorAddress
+        });
+      });
+  });
+
+  it('should not allow transferFrom() when _to is 0x0000000000000000000000000000000000000000', () => {
+    var CaptivateTokenInstance;
+
+    return CaptivateToken.deployed().then((instance) => {
+        CaptivateTokenInstance = instance;
+        return CaptivateTokenInstance.approve(recipientAddress, 1000000, {
+          from: creatorAddress
+        })
+      }).then(() => {
+        utils.assertEvent(CaptivateTokenInstance, {
+          event: 'Approval'
+        })
+      }).then(() => {
+        return CaptivateTokenInstance.transferFrom(creatorAddress, '0x0000000000000000000000000000000000000000', 1000000, {
+          from: recipientAddress
+        })
+      }).then(assert.fail)
+      .catch((error) => {
+        assert(
+          error.message.indexOf('revert') >= 0,
+          'accounts trying to transferFrom() when _to is 0x0000000000000000000000000000000000000000 should throw an revert exception.'
+        );
+      }).then(() => {
+        CaptivateTokenInstance.approve(recipientAddress, 0, {
+          from: creatorAddress
+        });
+      })
+  })
 
 });
