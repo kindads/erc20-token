@@ -219,10 +219,10 @@ contract StandardToken is ERC20, BasicToken {
 *   -----------------------------
 *   | Units               | CPX |
 *   -----------------------------
-*   | 1000000000000000000 |  1  |
-*   | 1 * 10**18          |  1  |
-*   | 1e18                |  1  |
-*   | 1e19                | 10  |
+*   | 100000000           |  1  |
+*   | 1 * 10**8           |  1  |
+*   | 1e8                 |  1  |
+*   | 1e9                 | 10  |
 *   -----------------------------
 *
 * All the initial CPX Tokens are assigned to the creator of this contract
