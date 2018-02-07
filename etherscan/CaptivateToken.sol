@@ -211,13 +211,13 @@ contract StandardToken is ERC20, BasicToken {
 
 /**
 * @title Captivate Token
-* @dev ERC20 Captivate Token (CAPT )
+* @dev ERC20 Captivate Token (CAPT)
 *
-* CAPT  are displayed using 18 decimal places of precision
+* CAPT are displayed using 18 decimal places of precision
 *
-* 1 CAPT  is equal to:
+* 1 CAPT is equal to:
 *   -----------------------------
-*   | Units               | CAPT |
+*   | Units               |CAPT |
 *   -----------------------------
 *   | 100000000           |  1  |
 *   | 1 * 10**8           |  1  |

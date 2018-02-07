@@ -4,13 +4,13 @@ import "./zeppelin-solidity/contracts/token/StandardToken.sol";
 
 /**
 * @title Captivate Token
-* @dev ERC20 Captivate Token (CPX)
+* @dev ERC20 Captivate Token (CAPT)
 *
-* CPX are displayed using 18 decimal places of precision
+* CAPT are displayed using 18 decimal places of precision
 *
-* 1 CPX is equal to:
+* 1 CAPT is equal to:
 *   -----------------------------
-*   | Units               | CPX |
+*   | Units               |CAPT |
 *   -----------------------------
 *   | 100000000           |  1  |
 *   | 1 * 10**8           |  1  |
@@ -26,7 +26,7 @@ import "./zeppelin-solidity/contracts/token/StandardToken.sol";
 contract CaptivateToken is StandardToken {
 
   string public name = "Captivate Token";
-  string public symbol = "CPX";
+  string public symbol = "CAPT";
   uint8 public decimals = 8;
   uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**8; 
 
