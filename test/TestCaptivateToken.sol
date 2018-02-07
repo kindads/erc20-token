@@ -19,24 +19,24 @@ contract TestCaptivateToken {
 
   function testConstructor() public {
     uint allocatedTokens = _captivateToken.balanceOf(this);
-    Assert.equal(allocatedTokens, 61000000000000000000000000, "Contract creator should hold 61e24 ( 61000000000000000000000000 ) tokens in the wallet (this)");
+    Assert.equal(allocatedTokens, 6100000000000000, "Contract creator should hold 61e24 ( 6100000000000000 ) tokens in the wallet (this)");
   }
 
   function testTotalSupply() public {
     uint totalSupply = _captivateToken.totalSupply();
-    Assert.equal(totalSupply, 61000000000000000000000000, "There should be 61000000000000000000000000 tokens in circulation");
+    Assert.equal(totalSupply, 6100000000000000, "There should be 6100000000000000 tokens in circulation");
   }
 
   function testTransferWithValidAmount() public {
-    _captivateToken.transfer(_owner, 1000000000000000000000000);
+    _captivateToken.transfer(_owner, 100000000000000);
     uint tranferredTokens = _captivateToken.balanceOf(_owner);
     uint allocatedTokens = _captivateToken.balanceOf(this);
-    Assert.equal(tranferredTokens, 1000000000000000000000000, "Recipient should hold 100000000000000000000000 tokens");
-    Assert.equal(allocatedTokens, 60000000000000000000000000, "Contract creator should hold 60000000000000000000000000 tokens");
+    Assert.equal(tranferredTokens, 100000000000000, "Recipient should hold 10000000000000 tokens");
+    Assert.equal(allocatedTokens, 6000000000000000, "Contract creator should hold 6000000000000000 tokens");
   }
 
   function testApproveWhitValidAmount() public {
-    bool allocationSuccessful = _captivateToken.approve(_owner, 1000000000000000000000);
+    bool allocationSuccessful = _captivateToken.approve(_owner, 100000000000);
     Assert.equal(allocationSuccessful, true, "Token owner should be able to allocate less than or equal to their holdings");
   }
 
@@ -46,9 +46,9 @@ contract TestCaptivateToken {
   }
 
   function testAllowanceWithAllocatedBalance() public {
-    _captivateToken.approve(_owner, 1000000000000000000000);
+    _captivateToken.approve(_owner, 100000000000);
     uint allowanceAvailable = _captivateToken.allowance(_owner, this);
-    Assert.equal(allowanceAvailable, 0, "Spender should have a balance of 1000000000000000000000 available");
+    Assert.equal(allowanceAvailable, 0, "Spender should have a balance of 100000000000 available");
   }
 
 }

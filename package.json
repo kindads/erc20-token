@@ -8,6 +8,7 @@
     "merge-contracts": "sol-merger './contracts/*.sol' ./etherscan",
     "compile": "truffle compile",
     "migrate": "truffle migrate",
+    "migrate-reset": "truffle migrate --reset",
     "migrate-rinkeby": "truffle migrate --network rinkeby"
   },
   "repository": {

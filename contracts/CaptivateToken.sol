@@ -27,8 +27,8 @@ contract CaptivateToken is StandardToken {
 
   string public name = "Captivate Token";
   string public symbol = "CPX";
-  uint8 public decimals = 18;
-  uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**18; 
+  uint8 public decimals = 8;
+  uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**8; 
 
   function CaptivateToken() public {
     totalSupply_ = INITIAL_SUPPLY;

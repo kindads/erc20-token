@@ -23,19 +23,19 @@ contract("CaptivateToken", (accounts) => {
     });
   });
 
-  it('should have decimals set to 18', () => {
+  it('should have decimals set to 8', () => {
     return CaptivateToken.deployed().then((instance) => {
       return instance.decimals.call()
     }).then((decimals) => {
-      assert.equal(decimals, 18, '18 wasn\'t the value of decimals')
+      assert.equal(decimals, 8, '8 wasn\'t the value of decimals')
     });
   });
 
-  it('Should contain 61e+24 Captivate Tokens in circulation', () => {
+  it('Should contain 61e+14 Captivate Tokens in circulation', () => {
     return CaptivateToken.deployed().then((instance) => {
       return instance.totalSupply.call();
     }).then(balance => {
-      assert.equal(balance.valueOf(), 61e+24, 'Wrong number of token in circulation');
+      assert.equal(balance.valueOf(), 61e+14, 'Wrong number of token in circulation');
     });
   });
 
@@ -43,7 +43,7 @@ contract("CaptivateToken", (accounts) => {
     return CaptivateToken.deployed().then(instance => {
       return instance.balanceOf.call(creatorAddress)
     }).then(balance => {
-      assert.equal(balance.valueOf(), 61e+24, '61e+24 wasn\'t in the creator balance');
+      assert.equal(balance.valueOf(), 61e+14, '61e+24 wasn\'t in the creator balance');
     })
   });
 
@@ -52,16 +52,16 @@ contract("CaptivateToken", (accounts) => {
 
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
-      return CaptivateTokenInstance.transfer(recipientAddress, 1e+24, {
+      return CaptivateTokenInstance.transfer(recipientAddress, 1e+14, {
         from: creatorAddress
       });
     }).then(result => {
       return CaptivateTokenInstance.balanceOf.call(recipientAddress);
     }).then(recipientBalance => {
-      assert.equal(recipientBalance.valueOf(), 1e+24, '1e+24 wasn\'t in the recipient balance');
+      assert.equal(recipientBalance.valueOf(), 1e+14, '1e+24 wasn\'t in the recipient balance');
       return CaptivateTokenInstance.balanceOf.call(creatorAddress);
     }).then(creatorBalance => {
-      assert.equal(creatorBalance.valueOf(), 60e+24, '60e+24 wasn\'t in the creator balance');
+      assert.equal(creatorBalance.valueOf(), 60e+14, '60e+24 wasn\'t in the creator balance');
     });
   });
 
@@ -70,13 +70,13 @@ contract("CaptivateToken", (accounts) => {
 
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
-      return CaptivateTokenInstance.approve(delegateAddress, 1e+24, {
+      return CaptivateTokenInstance.approve(delegateAddress, 1e+14, {
         from: creatorAddress
       });
     }).then(result => {
       return CaptivateTokenInstance.allowance.call(creatorAddress, delegateAddress);
     }).then(delegateAllowance => {
-      assert.equal(delegateAllowance.valueOf(), 1e+24, '1e+24 wasn\'t approved ti he delegated adddress');
+      assert.equal(delegateAllowance.valueOf(), 1e+14, '1e+24 wasn\'t approved ti he delegated adddress');
     });
   });
 
@@ -85,16 +85,16 @@ contract("CaptivateToken", (accounts) => {
 
     return CaptivateToken.deployed().then(instance => {
       CaptivateTokenInstance = instance;
-      return CaptivateTokenInstance.transferFrom(creatorAddress, recipientAddress, .5e+24, {
+      return CaptivateTokenInstance.transferFrom(creatorAddress, recipientAddress, .5e+14, {
         from: delegateAddress
       });
     }).then(result => {
       return CaptivateTokenInstance.balanceOf.call(recipientAddress);
     }).then(recipientBalance => {
-      assert.equal(recipientBalance.valueOf(), 1.5e+24, '1e+24 wasn\'t in the recipient balance');
+      assert.equal(recipientBalance.valueOf(), 1.5e+14, '1e+24 wasn\'t in the recipient balance');
       return CaptivateTokenInstance.allowance.call(creatorAddress, delegateAddress);
     }).then(delegateAllowance => {
-      assert.equal(delegateAllowance.valueOf(), .5e+24, '.5e+24 wasn\'t set as the delegated balance');
+      assert.equal(delegateAllowance.valueOf(), .5e+14, '.5e+24 wasn\'t set as the delegated balance');
     });
   });
 
