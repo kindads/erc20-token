@@ -15,11 +15,11 @@ contract("CaptivateToken", (accounts) => {
     });
   });
 
-  it('should have the symbol CPX', () => {
+  it('should have the symbol CAPT', () => {
     return CaptivateToken.deployed().then((instance) => {
       return instance.symbol.call()
     }).then((symbol) => {
-      assert.equal(symbol, 'CPX', 'CPX wasn\'t the symbol')
+      assert.equal(symbol, 'CAPT', 'CAPT wasn\'t the symbol')
     });
   });
 
