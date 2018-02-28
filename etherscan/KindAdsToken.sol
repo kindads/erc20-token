@@ -210,12 +210,52 @@ contract StandardToken is ERC20, BasicToken {
 }
 
 /**
-* @title Captivate Token
-* @dev ERC20 Captivate Token (CAPT)
+ * @title Ownable
+ * @dev The Ownable contract has an owner address, and provides basic authorization control
+ * functions, this simplifies the implementation of "user permissions".
+ */
+contract Ownable {
+  address public owner;
+
+
+  event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+
+  /**
+   * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+   * account.
+   */
+  function Ownable() public {
+    owner = msg.sender;
+  }
+
+  /**
+   * @dev Throws if called by any account other than the owner.
+   */
+  modifier onlyOwner() {
+    require(msg.sender == owner);
+    _;
+  }
+
+  /**
+   * @dev Allows the current owner to transfer control of the contract to a newOwner.
+   * @param newOwner The address to transfer ownership to.
+   */
+  function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0));
+    OwnershipTransferred(owner, newOwner);
+    owner = newOwner;
+  }
+
+}
+
+/**
+* @title Kind Ads Token
+* @dev ERC20 Kind Ads Token (KIND)
 *
-* CAPT are displayed using 18 decimal places of precision
+* KIND are displayed using 8 decimal places of precision
 *
-* 1 CAPT is equal to:
+* 1 KIND is equal to:
 *   -----------------------------
 *   | Units               |CAPT |
 *   -----------------------------
@@ -225,21 +265,34 @@ contract StandardToken is ERC20, BasicToken {
 *   | 1e9                 | 10  |
 *   -----------------------------
 *
-* All the initial CPX Tokens are assigned to the creator of this contract
+* All the initial KIND Tokens are assigned to the creator of this contract
 *
 */
 
 
-contract CaptivateToken is StandardToken {
+contract KindAdsToken is StandardToken, Ownable {
 
-  string public name = "Captivate Token";
-  string public symbol = "CAPT";
+  string public name = "Kind Ads Token";
+  string public symbol = "KIND";
   uint8 public decimals = 8;
   uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**8; 
 
-  function CaptivateToken() public {
+  event ApprovalOwner(address indexed owner, address indexed behalfOf, uint256 value);
+
+  function KindAdsToken() public {
     totalSupply_ = INITIAL_SUPPLY;
     balances[msg.sender] = INITIAL_SUPPLY;
+  }
+
+  /**
+   * @dev Approve the Owner to spend the specified amount of tokens on behalf of _behalfof.
+   * @param _behalfOf The address which to spend the funds from.
+   * @param _value The amount of tokens to be spent.
+   */
+  function approveOwner(address _behalfOf, uint256 _value) public onlyOwner returns (bool) {
+    allowed[_behalfOf][msg.sender] = _value;
+    ApprovalOwner(msg.sender, _behalfOf, _value);
+    return true;
   }
 
 }
