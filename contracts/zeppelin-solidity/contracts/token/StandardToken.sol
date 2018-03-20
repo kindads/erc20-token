@@ -56,7 +56,7 @@ contract StandardToken is ERC20, BasicToken {
   * @param _currentValue The actual amount of tokens that the _spender can spend.
   * @param _value The amount of tokens to be spent.
   *
-  * There is no a simple and most important backwards compatible way to fix the race condition issue on the approve function.
+  * There is not a simple and most important, a backwards compatible way to fix the race condition issue on the approve function.
   * There is a large and unfinished discussion on the community https://github.com/ethereum/EIPs/issues/738
   * about this issue and the "best" aproach is add a safeApprove function to validate the amount/value
   * and leave the approve function as is to complind the ERC-20 standard
