@@ -12,7 +12,7 @@ import "./zeppelin-solidity/contracts/ownership/Ownable.sol";
 *
 * 1 KIND is equal to:
 *   -----------------------------
-*   | Units               |CAPT |
+*   | Units               |KIND |
 *   -----------------------------
 *   | 100000000           |  1  |
 *   | 1 * 10**8           |  1  |
@@ -34,9 +34,16 @@ contract KindAdsToken is StandardToken, Ownable {
 
   event ApprovalOwner(address indexed owner, address indexed behalfOf, uint256 value);
 
+  /**
+   * @dev Initialize the contract with the INITIAL_SUPPLY value and it assigns the amount to the contract creator address
+   *
+   * Trigger an Transfer event on token creation
+   * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
+   */
   function KindAdsToken() public {
     totalSupply_ = INITIAL_SUPPLY;
     balances[msg.sender] = INITIAL_SUPPLY;
+    Transfer("0x0", msg.sender, INITIAL_SUPPLY);
   }
 
   /**
