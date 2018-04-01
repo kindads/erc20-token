@@ -26,7 +26,7 @@ import "./zeppelin-solidity/contracts/ownership/CanReclaimToken.sol";
 */
 
 
-contract KindAdsToken is StandardToken, Ownable {
+contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
 
   string public name = "Kind Ads Token";
   string public symbol = "KIND";

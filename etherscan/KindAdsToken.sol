@@ -330,7 +330,7 @@ contract CanReclaimToken is Ownable {
 */
 
 
-contract KindAdsToken is StandardToken, Ownable {
+contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
 
   string public name = "Kind Ads Token";
   string public symbol = "KIND";
