@@ -161,6 +161,26 @@ contract StandardToken is ERC20, BasicToken {
   }
 
   /**
+  * @dev saveAprrove to fix the approve race condition
+  * @param _spender The address which will spend the funds.
+  * @param _currentValue The actual amount of tokens that the _spender can spend.
+  * @param _value The amount of tokens to be spent.
+  *
+  * There is not a simple and most important, a backwards compatible way to fix the race condition issue on the approve function.
+  * There is a large and unfinished discussion on the community https://github.com/ethereum/EIPs/issues/738
+  * about this issue and the "best" aproach is add a safeApprove function to validate the amount/value
+  * and leave the approve function as is to complind the ERC-20 standard
+  *
+  */
+  function safeApprove(address _spender, uint256 _currentValue, uint256 _value) public returns (bool success) {
+    if (allowed[msg.sender][_spender] == _currentValue) {
+      return approve(_spender, _value);
+    }
+
+    return false;
+  }
+
+  /**
    * @dev Function to check the amount of tokens that an owner allowed to a spender.
    * @param _owner address The address which owns the funds.
    * @param _spender address The address which will spend the funds.
@@ -250,6 +270,46 @@ contract Ownable {
 }
 
 /**
+ * @title SafeERC20
+ * @dev Wrappers around ERC20 operations that throw on failure.
+ * To use this library you can add a ` ` statement to your contract,
+ * which allows you to call the safe operations as `token.safeTransfer(...)`, etc.
+ */
+library SafeERC20 {
+  function safeTransfer(ERC20Basic token, address to, uint256 value) internal {
+    assert(token.transfer(to, value));
+  }
+
+  function safeTransferFrom(ERC20 token, address from, address to, uint256 value) internal {
+    assert(token.transferFrom(from, to, value));
+  }
+
+  function safeApprove(ERC20 token, address spender, uint256 value) internal {
+    assert(token.approve(spender, value));
+  }
+}
+
+/**
+ * @title Contracts that should be able to recover tokens
+ * @author SylTi
+ * @dev This allow a contract to recover any ERC20 token received in a contract by transferring the balance to the contract owner.
+ * This will prevent any accidental loss of tokens.
+ */
+contract CanReclaimToken is Ownable {
+  using SafeERC20 for ERC20Basic;
+
+  /**
+   * @dev Reclaim all ERC20Basic compatible tokens
+   * @param token ERC20Basic The address of the token contract
+   */
+  function reclaimToken(ERC20Basic token) external onlyOwner {
+    uint256 balance = token.balanceOf(this);
+    token.safeTransfer(owner, balance);
+  }
+
+}
+
+/**
 * @title Kind Ads Token
 * @dev ERC20 Kind Ads Token (KIND)
 *
@@ -257,7 +317,7 @@ contract Ownable {
 *
 * 1 KIND is equal to:
 *   -----------------------------
-*   | Units               |CAPT |
+*   | Units               |KIND |
 *   -----------------------------
 *   | 100000000           |  1  |
 *   | 1 * 10**8           |  1  |
@@ -270,7 +330,7 @@ contract Ownable {
 */
 
 
-contract KindAdsToken is StandardToken, Ownable {
+contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
 
   string public name = "Kind Ads Token";
   string public symbol = "KIND";
@@ -279,9 +339,16 @@ contract KindAdsToken is StandardToken, Ownable {
 
   event ApprovalOwner(address indexed owner, address indexed behalfOf, uint256 value);
 
+  /**
+   * @dev Initialize the contract with the INITIAL_SUPPLY value and it assigns the amount to the contract creator address
+   *
+   * Trigger an Transfer event on token creation
+   * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
+   */
   function KindAdsToken() public {
     totalSupply_ = INITIAL_SUPPLY;
     balances[msg.sender] = INITIAL_SUPPLY;
+    Transfer(0x0, msg.sender, INITIAL_SUPPLY);
   }
 
   /**
