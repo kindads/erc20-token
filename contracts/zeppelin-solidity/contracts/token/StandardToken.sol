@@ -51,6 +51,26 @@ contract StandardToken is ERC20, BasicToken {
   }
 
   /**
+  * @dev saveAprrove to fix the approve race condition
+  * @param _spender The address which will spend the funds.
+  * @param _currentValue The actual amount of tokens that the _spender can spend.
+  * @param _value The amount of tokens to be spent.
+  *
+  * There is not a simple and most important, a backwards compatible way to fix the race condition issue on the approve function.
+  * There is a large and unfinished discussion on the community https://github.com/ethereum/EIPs/issues/738
+  * about this issue and the "best" aproach is add a safeApprove function to validate the amount/value
+  * and leave the approve function as is to complind the ERC-20 standard
+  *
+  */
+  function safeApprove(address _spender, uint256 _currentValue, uint256 _value) public returns (bool success) {
+    if (allowed[msg.sender][_spender] == _currentValue) {
+      return approve(_spender, _value);
+    }
+
+    return false;
+  }
+
+  /**
    * @dev Function to check the amount of tokens that an owner allowed to a spender.
    * @param _owner address The address which owns the funds.
    * @param _spender address The address which will spend the funds.
