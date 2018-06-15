@@ -350,16 +350,5 @@ contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
     balances[msg.sender] = INITIAL_SUPPLY;
     Transfer(0x0, msg.sender, INITIAL_SUPPLY);
   }
-
-  /**
-   * @dev Approve the Owner to spend the specified amount of tokens on behalf of _behalfof.
-   * @param _behalfOf The address which to spend the funds from.
-   * @param _value The amount of tokens to be spent.
-   */
-  function approveOwner(address _behalfOf, uint256 _value) public onlyOwner returns (bool) {
-    allowed[_behalfOf][msg.sender] = _value;
-    ApprovalOwner(msg.sender, _behalfOf, _value);
-    return true;
-  }
-
+  
 }
