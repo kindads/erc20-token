@@ -31,9 +31,7 @@ contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
   string public name = "Kind Ads Token";
   string public symbol = "KIND";
   uint8 public decimals = 8;
-  uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**8; 
-
-  event ApprovalOwner(address indexed owner, address indexed behalfOf, uint256 value);
+  uint256 public INITIAL_SUPPLY = 61 * (10**6) * 10**8;
 
   /**
    * @dev Initialize the contract with the INITIAL_SUPPLY value and it assigns the amount to the contract creator address
@@ -46,5 +44,5 @@ contract KindAdsToken is StandardToken, Ownable, CanReclaimToken {
     balances[msg.sender] = INITIAL_SUPPLY;
     Transfer(0x0, msg.sender, INITIAL_SUPPLY);
   }
-  
+
 }
