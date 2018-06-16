@@ -189,36 +189,4 @@ contract("KindAdsToken", (accounts) => {
         });
       })
   })
-
-  it('Should approve 100 Kind Ad Tokens to the Owner', () => {
-    var KindAdsTokenInstance;
-
-    return KindAdsToken.deployed().then(instance => {
-      KindAdsTokenInstance = instance;
-      return KindAdsTokenInstance.approveOwner(buyerAddress, 100, {
-        from: creatorAddress
-      });
-    }).then(result => {
-      return KindAdsTokenInstance.allowance.call(buyerAddress, creatorAddress);
-    }).then(delegateAllowance => {
-      assert.equal(delegateAllowance.valueOf(), 100, '10 wasn\'t approved to the Owner adddress');
-    });
-  });
-
-  it('Should NOT approve 100 Kind Ad Tokens to the Owner', () => {
-    var KindAdsTokenInstance;
-
-    return KindAdsToken.deployed().then(instance => {
-      KindAdsTokenInstance = instance;
-      return KindAdsTokenInstance.approveOwner(buyerAddress, 100, {
-        from: delegateAddress
-      });
-    }).then(assert.fail)
-      .catch((error) => {
-        assert(
-          error.message.indexOf('revert') >= 0,'Not ownwer is trying to call aproveOwner'
-        );
-      });
-  });
-
 });
